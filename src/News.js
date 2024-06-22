@@ -70,8 +70,11 @@ function News() {
         try {
           // Fetch data from the API if not found in cache
           const apiKey = 'cdf732c2cf194ad9b4fe6af8dd191e9c'; // Replace with your actual API key
+          const proxyUrl = "https://cors-anywhere.herokuapp.com/"; // CORS proxy for development
+          const targetUrl = `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&language=${language}&page=${currentPage}&pageSize=10&apiKey=${apiKey}`;
           const response = await axios.get(
-            `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&language=${language}&page=${currentPage}&pageSize=10&apiKey=${apiKey}`
+            // `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&language=${language}&page=${currentPage}&pageSize=10&apiKey=${apiKey}`
+            proxyUrl + targetUrl
           );
           // Cache the fetched data in sessionStorage
           sessionStorage.setItem(cacheKey, JSON.stringify(response.data));
