@@ -1,0 +1,129 @@
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.news-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0rem;
+  }
+  
+  .card1 {
+    flex-grow: 1;
+    flex-basis: 250px;
+    margin: 10px; 
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add a box shadow */
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #0056b3;
+  }
+  
+  .pagination span {
+    padding: 8px 12px;
+  }
+
+  
+
+  /* News.css */
+
+/* Navbar */
+.navbar {
+    background-color: #007bff;
+    color: rgb(11, 0, 0);
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .navbar-toggler {
+    border: none;
+    background-color: transparent;
+    color: rgb(9, 0, 0);
+  }
+  
+  .navbar-nav {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-nav button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    border: none;
+    background-color: transparent;
+    color: rgb(20, 1, 1);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .navbar-nav button:hover {
+    text-decoration: underline;
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: none;
+    background-color: #007bff;
+    color: rgb(5, 5, 5);
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #0056b3;
+  }
+  
+  .pagination span {
+    padding: 8px 12px;
+  }
+  
+  /* Responsive Layout */
+  @media (max-width: 768px) {
+    .navbar-nav {
+      flex-direction: column;
+    }
+  
+    .navbar-nav button {
+      margin-right: 0;
+      margin-bottom: 8px;
+    }
+  
+    .card {
+      flex: 1 1 calc(50% - 32px);
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .card {
+      flex: 1 1 calc(100% - 32px);
+    }
+  }
+  
