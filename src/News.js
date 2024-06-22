@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate  } from 'react-router-dom';
+import { useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './News.css';
@@ -24,7 +25,28 @@ function News() {
   // State to track the selected language
   const [language, setLanguage] = useState('en'); // Default to English
 
+  const [navbarOpen, setNavbarOpen] = useState(false);
+
+  const navbarRef = useRef(null);  // Ref to capture navbar DOM element
+
   const navigate = useNavigate(); // useNavigate hook for navigation
+
+   // Function to close navbar toggle when clicking outside
+   const handleClickOutside = (event) => {
+    if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+      setNavbarOpen(false);
+    }
+  };
+
+
+  useEffect(() => {
+    // Event listener to handle clicks outside the navbar
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // Function to handle page changes in pagination
   const handlePageChange = (newPage) => {
@@ -70,6 +92,11 @@ function News() {
     };
     fetchNews();
   }, [category, country, language, currentPage]);
+
+
+  const handleReadMore = (title) => {
+    navigate(`/article/${encodeURIComponent(title)}`);
+  };
 
   // Function to render pagination buttons dynamically
   const renderPagination = () => {
@@ -133,15 +160,19 @@ function News() {
           <button
             className="navbar-toggler"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
+            // data-bs-toggle="collapse"
+            // data-bs-target="#navbarNavAltMarkup"
+            // aria-controls="navbarNavAltMarkup"
+            // aria-expanded="false"
+            // aria-label="Toggle navigation"
+            onClick={() => setNavbarOpen(!navbarOpen)}
             aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
+            aria-expanded={navbarOpen ? 'true' : 'false'}
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div  className={`collapse navbar-collapse ${navbarOpen ? 'show' : ''}`} id="navbarNavAltMarkup">
             <div className="navbar-nav">
               <button className="nav-link btn" onClick={() => setCategory('technology')}>
                 Technology
@@ -218,7 +249,7 @@ function News() {
                   className="btn btn-primary"
                   // target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => navigate(`/article/${encodeURIComponent(item.title)}`)}
+                  onClick={() => handleReadMore(item.title)}
                 >
                   Read More
                 </button>
