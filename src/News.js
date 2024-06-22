@@ -18,18 +18,22 @@ function News() {
   const [category, setCategory] = useState('technology');
   // State to handle and display errors
   const [error, setError] = useState('');
+  // State to track the selected country
+  const [country, setCountry] = useState('in'); // Default to India
+  // State to track the selected language
+  const [language, setLanguage] = useState('en'); // Default to English
 
   // Function to handle page changes in pagination
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-  // useEffect to fetch news data whenever the category or currentPage changes
+  // useEffect to fetch news data whenever the category, country, language, or currentPage changes
   useEffect(() => {
     const fetchNews = async () => {
-      // Construct a unique key for caching based on category and currentPage
-      const cacheKey = `${category}-${currentPage}`;
-      // Check if data for the current page and category is already in sessionStorage
+      // Construct a unique key for caching based on category, country, language, and currentPage
+      const cacheKey = `${category}-${country}-${language}-${currentPage}`;
+      // Check if data for the current page, category, country, and language is already in sessionStorage
       const cachedData = sessionStorage.getItem(cacheKey);
 
       if (cachedData) {
@@ -40,9 +44,9 @@ function News() {
       } else {
         try {
           // Fetch data from the API if not found in cache
-          const apiKey = 'cdf732c2cf194ad9b4fe6af8dd191e9c';
+          const apiKey = 'cdf732c2cf194ad9b4fe6af8dd191e9c'; // Replace with your actual API key
           const response = await axios.get(
-            `https://newsapi.org/v2/top-headlines?category=${category}&page=${currentPage}&pageSize=10&apiKey=${apiKey}`
+            `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&language=${language}&page=${currentPage}&pageSize=10&apiKey=${apiKey}`
           );
           // Cache the fetched data in sessionStorage
           sessionStorage.setItem(cacheKey, JSON.stringify(response.data));
@@ -62,7 +66,7 @@ function News() {
       }
     };
     fetchNews();
-  }, [category, currentPage]);
+  }, [category, country, language, currentPage]);
 
   // Function to render pagination buttons dynamically
   const renderPagination = () => {
@@ -162,8 +166,35 @@ function News() {
         </div>
       </nav>
 
-      {/* Title indicating the selected news category */}
-      <h1>NEWS : {category.toUpperCase()}</h1>
+       {/* Title indicating the selected news category */}
+       <h1>NEWS : {category.toUpperCase()}</h1>
+
+      {/* Dropdowns to select country and language */}
+      <div className="form-floating filters">
+        {/* <label htmlFor="country">Country:</label> */}
+        <select className='form-select' id="floatingSelect" aria-label="Floating label select example" value={country} onChange={(e) => setCountry(e.target.value)}>
+          <option value="in" selected>India</option>
+          <option value="us">US</option>
+          <option value="gb">UK</option>
+          <option value="ca">Canada</option>
+          <option value="au">Australia</option>
+        </select>
+        <label for="floatingSelect">Country</label>
+        </div>
+
+        <div className="form-floating filters">
+        {/* <label htmlFor="language">Language:</label> */}
+        <select className='form-select' id="floatingSelect" aria-label="Floating label select example"  value={language} onChange={(e) => setLanguage(e.target.value)}>
+          <option value="en" selected>English</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="es">Spanish</option>
+          <option value="it">Italian</option>
+        </select>
+        <label for="floatingSelect">Languages</label>
+      </div>
+
+     
       {/* Display error message if any */}
       {error && <p className="error">{error}</p>}
       <div className="news-container">
