@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate  } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './News.css';
@@ -22,6 +23,8 @@ function News() {
   const [country, setCountry] = useState('in'); // Default to India
   // State to track the selected language
   const [language, setLanguage] = useState('en'); // Default to English
+
+  const navigate = useNavigate(); // useNavigate hook for navigation
 
   // Function to handle page changes in pagination
   const handlePageChange = (newPage) => {
@@ -210,14 +213,15 @@ function News() {
                 <h5 className="card-title">{item.source.id}</h5>
                 <h5 className="card-title">{item.title}</h5>
                 <p className="card-text">{item.description}</p>
-                <a
-                  href={item.url}
+                <button
+                  // href={item.url}
                   className="btn btn-primary"
-                  target="_blank"
+                  // target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => navigate(`/article/${encodeURIComponent(item.title)}`)}
                 >
                   Read More
-                </a>
+                </button>
               </div>
             </div>
           ))
